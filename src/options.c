@@ -129,7 +129,7 @@ void print_version(void) {
     zlib = '+';
 #endif
 
-    printf("ag version %s\n\n", PACKAGE_VERSION);
+    printf("ag version %s (japanese patch 0.1)\n\n", PACKAGE_VERSION);
     printf("Features:\n");
     printf("  %cjit %clzma %czlib\n", jit, lzma, zlib);
 }

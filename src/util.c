@@ -313,6 +313,29 @@ int is_binary(const void *buf, const size_t buf_len) {
                     continue;
                 }
             }
+            /* EUC-JP detection */
+            /* http://blog.monochromegane.com/blog/2013/09/15/the-silver-searcher-detects-japanese-char-set/ */
+            if (buf_c[i] == 142) {
+                i++;
+                if (buf_c[i] > 160 && buf_c[i] < 224) {
+                    continue;
+                }
+            } else if (buf_c[i] > 160 && buf_c[i] < 255) {
+                i++;
+                if(buf_c[i] > 160 && buf_c[i] < 255) {
+                    continue;
+                }
+            }
+            /* Shift-JIS detection */
+            /* http://blog.monochromegane.com/blog/2013/09/15/the-silver-searcher-detects-japanese-char-set/ */
+            if (buf_c[i] > 160 && buf_c[i] < 224) {
+                continue;
+            } else if ((buf_c[i] > 128 && buf_c[i] < 160) || (buf_c[i] > 223 && buf_c[i] < 240)) {
+                i++;
+                if ((buf_c[i] > 63 && buf_c[i] < 127) || (buf_c[i] > 127 && buf_c[i] < 253)) {
+                    continue;
+                }
+            }
             suspicious_bytes++;
             /* Disk IO is so slow that it's worthwhile to do this calculation after every suspicious byte. */
             /* This is true even on a 1.6Ghz Atom with an Intel 320 SSD. */
